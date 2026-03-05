@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual environment
+venv/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Dataset / Preprocessing
+*.pkl
+X_test.pkl
+y_test.pkl
+word2idx.pkl
+idx2tag.pkl
+
+# Models
+bilstm_pos_model.pth
+indobert_pos_model/model.safetensors
+indobert_pos_model/*.bin
+indobert_pos_model/*.safetensors
+
+# OS files
+.DS_Store
