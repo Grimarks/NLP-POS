@@ -31,29 +31,32 @@ class BiLSTM_POS(nn.Module):
 # =========================
 # CACHE & LOAD RESOURCES
 # =========================
-@st.cache_resource(show_spinner="Memuat model... (Hanya butuh waktu saat pertama kali dijalankan)")
 def load_models():
+    # Membuat path dinamis yang selalu menunjuk ke folder "models" di samping app.py
+    word2idx_path = os.path.join(BASE_DIR, "models", "word2idx.pkl")
+    idx2tag_path = os.path.join(BASE_DIR, "models", "idx2tag.pkl")
+    bilstm_path = os.path.join(BASE_DIR, "models", "bilstm_pos_model.pth")
+    indobert_path = os.path.join(BASE_DIR, "models", "indobert_pos_model")
+
     # Load Vocabularies
-    with open("models/word2idx.pkl", "rb") as f:
+    with open(word2idx_path, "rb") as f:
         word2idx = pickle.load(f)
-    with open("models/idx2tag.pkl", "rb") as f:
+    with open(idx2tag_path, "rb") as f:
         idx2tag = pickle.load(f)
 
     # Load BiLSTM
     bilstm_model = BiLSTM_POS(len(word2idx), len(idx2tag))
-    bilstm_model.load_state_dict(torch.load("models/bilstm_pos_model.pth", map_location=torch.device('cpu')))
+    bilstm_model.load_state_dict(torch.load(bilstm_path, map_location=torch.device('cpu')))
     bilstm_model.eval()
 
     # Load IndoBERT
-    tokenizer = AutoTokenizer.from_pretrained("models/indobert_pos_model")
-    bert_model = AutoModelForTokenClassification.from_pretrained("models/indobert_pos_model")
+    tokenizer = AutoTokenizer.from_pretrained(indobert_path)
+    bert_model = AutoModelForTokenClassification.from_pretrained(indobert_path)
     bert_model.eval()
 
     return word2idx, idx2tag, bilstm_model, tokenizer, bert_model
 
-
 word2idx, idx2tag, bilstm_model, tokenizer, bert_model = load_models()
-
 
 # =========================
 # FUNGSI PREDIKSI
