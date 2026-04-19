@@ -115,7 +115,7 @@ model_bert = AutoModelForTokenClassification.from_pretrained(model_name, num_lab
 print("IndoBERT loaded!")
 
 def tokenize_and_align(sentences, tags):
-    # tokenize all sentences
+    # tokenize semua kata
     inputs = tokenizer(sentences, is_split_into_words=True, padding=True, truncation=True, return_tensors="pt")
     labels = []
     for i, tag_seq in enumerate(tags):

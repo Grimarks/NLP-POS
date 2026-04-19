@@ -114,3 +114,58 @@ print("==============================\n")
 print(classification_report(y_true_bert, y_pred_bert))
 
 print("\nIndoBERT model loaded!")
+
+# =========================
+# TEST UNTUK MENGUJI
+# =========================
+
+test_sentence = "Aku suka makan indomie dan ayam, apalagi ayam bakar yang di jual di daerah sana"
+
+print("\n==============================")
+print("Custom Sentence POS Tagging")
+print("==============================")
+print("Sentence:", test_sentence)
+
+# split sederhana
+words = test_sentence.replace(",", " ,").split()
+
+# =========================
+# BiLSTM PREDICTION
+# =========================
+encoded = [word2idx.get(w, 0) for w in words]  # unknown word -> 0
+sent_tensor = torch.tensor(encoded).unsqueeze(0)
+
+with torch.no_grad():
+    output = model(sent_tensor)
+
+pred = torch.argmax(output, dim=2).squeeze().tolist()
+bilstm_tags = [idx2tag[i] for i in pred]
+
+print("\nBiLSTM Prediction:")
+for w, t in zip(words, bilstm_tags):
+    print(f"{w:12} -> {t}")
+
+# =========================
+# INDO-BERT PREDICTION
+# =========================
+tokens = tokenizer(words, is_split_into_words=True, return_tensors="pt", truncation=True)
+
+with torch.no_grad():
+    outputs = model_bert(**tokens)
+
+predictions = torch.argmax(outputs.logits, dim=2)[0]
+word_ids = tokens.word_ids()
+
+bert_tags = []
+prev_word = None
+
+for token_idx, word_id in enumerate(word_ids):
+    if word_id is None:
+        continue
+    if word_id != prev_word:
+        bert_tags.append(idx2tag[predictions[token_idx].item()])
+    prev_word = word_id
+
+print("\nIndoBERT Prediction:")
+for w, t in zip(words, bert_tags):
+    print(f"{w:12} -> {t}")
