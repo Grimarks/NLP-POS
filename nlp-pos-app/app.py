@@ -235,7 +235,7 @@ if submitted and test_sentence:
         st.divider()
 
         # --- Tabel perbandingan dengan highlight perbedaan ---
-        st.markdown("###Tabel Perbandingan Detail")
+        st.markdown("### Tabel Perbandingan Detail")
 
         different_count = sum(1 for b, i in zip(bilstm_tags, bert_tags) if b != i)
         total_words     = len(words)
