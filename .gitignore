@@ -18,7 +18,6 @@ venv/
 .vscode/
 
 # Dataset / Preprocessing
-*.pkl
 X_test.pkl
 y_test.pkl
 

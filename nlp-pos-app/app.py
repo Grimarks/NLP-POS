@@ -4,6 +4,7 @@ import torch.nn as nn
 import pickle
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForTokenClassification
+import os
 
 # =========================
 # KONFIGURASI HALAMAN
@@ -31,7 +32,11 @@ class BiLSTM_POS(nn.Module):
 # =========================
 # CACHE & LOAD RESOURCES
 # =========================
+@st.cache_resource(show_spinner="Memuat model... (Hanya butuh waktu saat pertama kali dijalankan)")
 def load_models():
+    # Ini akan mengambil lokasi persis di mana file app.py ini berada
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
     # Membuat path dinamis yang selalu menunjuk ke folder "models" di samping app.py
     word2idx_path = os.path.join(BASE_DIR, "models", "word2idx.pkl")
     idx2tag_path = os.path.join(BASE_DIR, "models", "idx2tag.pkl")
@@ -55,6 +60,7 @@ def load_models():
     bert_model.eval()
 
     return word2idx, idx2tag, bilstm_model, tokenizer, bert_model
+
 
 word2idx, idx2tag, bilstm_model, tokenizer, bert_model = load_models()
 
