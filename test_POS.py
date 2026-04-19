@@ -60,9 +60,9 @@ X_test, y_test = encode(test_sentences, test_tags)
 # =========================
 # SAVE PREPROCESSING
 # =========================
-with open("word2idx.pkl", "wb") as f:
+with open("nlp-pos-app/models/word2idx.pkl", "wb") as f:
     pickle.dump(dict(word2idx), f)
-with open("idx2tag.pkl", "wb") as f:
+with open("nlp-pos-app/models/idx2tag.pkl", "wb") as f:
     pickle.dump(idx2tag, f)
 with open("X_test.pkl", "wb") as f:
     pickle.dump(X_test, f)
@@ -103,7 +103,7 @@ for epoch in range(3):
         total_loss += loss.item()
     print("Epoch:", epoch, "Loss:", total_loss)
 
-torch.save(model.state_dict(), "bilstm_pos_model.pth")
+torch.save(model.state_dict(), "nlp-pos-app/models/bilstm_pos_model.pth")
 print("BiLSTM model saved!")
 
 # =========================

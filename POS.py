@@ -6,9 +6,9 @@ from transformers import AutoTokenizer, AutoModelForTokenClassification
 # =========================
 # LOAD PREPROCESSING
 # =========================
-with open("word2idx.pkl", "rb") as f:
+with open("nlp-pos-app/models/word2idx.pkl", "rb") as f:
     word2idx = pickle.load(f)
-with open("idx2tag.pkl", "rb") as f:
+with open("nlp-pos-app/models/idx2tag.pkl", "rb") as f:
     idx2tag = pickle.load(f)
 with open("X_test.pkl", "rb") as f:
     X_test = pickle.load(f)
@@ -43,7 +43,7 @@ class BiLSTM_POS(nn.Module):
 
 # Load model
 model = BiLSTM_POS(len(word2idx), len(idx2tag))
-model.load_state_dict(torch.load("bilstm_pos_model.pth"))
+model.load_state_dict(torch.load("nlp-pos-app/models/bilstm_pos_model.pth"))
 model.eval()
 print("BiLSTM model loaded!")
 
@@ -71,8 +71,8 @@ print(classification_report(y_true, y_pred))
 # =========================
 # EVALUATE INDO-BERT
 # =========================
-tokenizer = AutoTokenizer.from_pretrained("indobert_pos_model")
-model_bert = AutoModelForTokenClassification.from_pretrained("indobert_pos_model")
+tokenizer = AutoTokenizer.from_pretrained("nlp-pos-app/models/indobert_pos_model")
+model_bert = AutoModelForTokenClassification.from_pretrained("nlp-pos-app/models/indobert_pos_model")
 model_bert.eval()
 
 print("\nEvaluating IndoBERT...")

@@ -21,12 +21,12 @@ venv/
 *.pkl
 X_test.pkl
 y_test.pkl
-word2idx.pkl
-idx2tag.pkl
+nlp-pos-app/models/word2idx.pkl
+nlp-pos-app/models/idx2tag.pkl
 
 # Models
-bilstm_pos_model.pth
-indobert_pos_model/model.safetensors
+nlp-pos-app/models/bilstm_pos_model.pth
+nlp-pos-app/models/indobert_pos_model/model.safetensors
 indobert_pos_model/*.bin
 indobert_pos_model/*.safetensors
 
